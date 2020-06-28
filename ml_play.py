@@ -4,6 +4,7 @@ from os import path
 import numpy as np
 import json
 import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
@@ -96,6 +97,10 @@ class MLPlay:
         h.append((v,sh[0],sh[2],sl[1],sl[0],sl[2],coin_array[0],coin_array[1],coin_array[2],coin_array[3],coin_array[4]))               
         r.append((mylan,sh[1]))
         feature=np.hstack((r,h))
+
+        h2=[]
+        h2.append((v,sh[0],sh[2],sl[1],sl[0],sl[2]))
+        feature2=np.hstack((r,h2))
     
     
     
@@ -103,17 +108,26 @@ class MLPlay:
         
         if len(scene_info[self.player]) != 0:
             self.car_pos = scene_info[self.player]
-        
-        filename = path.join(path.dirname(__file__), 'Predict3.pickle')
-        with open(filename,"rb") as f:
+        with open("Predict3.pickle","rb") as f:
             forest=pickle.load(f)
+        with open("Predict4.pickle","rb") as f:
+            forest2=pickle.load(f)
+        """filename = path.join(path.dirname(__file__), 'Predict3.pickle')
+        with open(filename,"rb") as f:
+            forest=pickle.load(f)"""
         for i in range(10):
             vote.append(0)
         vote=np.array(vote)
         
-        for i in range(25):
+        for i in range(32):
             tree=forest[i]
             d=tree.predict(feature)
+            d=int(d)
+            vote[d]=vote[d]+1
+
+        for i in range(25):
+            tree=forest2[i]
+            d=tree.predict(feature2)
             d=int(d)
             vote[d]=vote[d]+1
         m=1
