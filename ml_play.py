@@ -4,7 +4,6 @@ from os import path
 import numpy as np
 import json
 import numpy as np
-from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
